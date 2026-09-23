@@ -9,6 +9,22 @@ const SECRET_COLORS = [
   'turquesa', 'marinho', 'rosa', 'marrom', 'branco', 'preto'
 ];
 
+/* Defina aqui o número exibido sobre cada cor ao revelar a resposta. */
+const COLOR_NUMBERS = {
+  verde: 1,
+  marinho: 2,
+  dourado: 3,
+  preto: 4,
+  branco: 5,
+  marrom: 6,
+  vermelho: 7,
+  azul: 8,
+  rosa: 9,
+  roxo: 10,
+  turquesa: 11,
+  laranja: 12
+};
+
 const COLORS = [
   { id: 'verde',    name: 'Verde',    value: '#20a65a' },
   { id: 'marinho',  name: 'Marinho',  value: '#123b75' },
@@ -32,6 +48,10 @@ if (SECRET_COLORS.length < CODE_LENGTH || new Set(SECRET_COLORS).size !== SECRET
   throw new Error('SECRET_COLORS deve conter cores válidas, diferentes e suficientes para o tamanho escolhido.');
 }
 
+if (COLORS.some(color => COLOR_NUMBERS[color.id] === undefined)) {
+  throw new Error('Defina um número em COLOR_NUMBERS para cada cor disponível.');
+}
+
 const SECRET = SECRET_COLORS.slice(0, CODE_LENGTH);
 
 const palette = document.getElementById('palette');
@@ -53,6 +73,15 @@ function paintCircle(element, colorId) {
   element.style.background = color ? color.value : 'var(--slot)';
   element.dataset.color = colorId || '';
   element.setAttribute('aria-label', color ? color.name : 'Posição vazia');
+}
+
+function getContrastColor(hexColor) {
+  const hex = hexColor.replace('#', '');
+  const red = parseInt(hex.slice(0, 2), 16);
+  const green = parseInt(hex.slice(2, 4), 16);
+  const blue = parseInt(hex.slice(4, 6), 16);
+  const brightness = (red * 299 + green * 587 + blue * 114) / 1000;
+  return brightness > 155 ? '#111318' : '#ffffff';
 }
 
 function renderPalette() {
@@ -179,6 +208,9 @@ function showVictory() {
     const dot = document.createElement('span');
     dot.className = 'solution-dot';
     paintCircle(dot, colorId);
+    dot.textContent = COLOR_NUMBERS[colorId];
+    dot.style.color = getContrastColor(colorMap[colorId].value);
+    dot.setAttribute('aria-label', `${colorMap[colorId].name}: número ${COLOR_NUMBERS[colorId]}`);
     solution.appendChild(dot);
   });
   modal.classList.add('show');

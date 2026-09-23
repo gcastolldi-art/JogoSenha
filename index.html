@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#111318">
-  <title>Jogo da Senha</title>
+  <meta name="theme-color" content="#15100b">
+  <title>O Portão das Cores</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="palette-shell">
     <div class="topbar">
       <div>
-        <h1>Jogo da Senha</h1>
+        <h1>O Portão das Cores</h1>
         <p class="subtitle" id="gameSubtitle">Descubra as cores na ordem correta</p>
       </div>
-      <button class="restart" id="restart" type="button">Reiniciar</button>
+      <button class="restart" id="restart" type="button">Recomeçar</button>
     </div>
     <div class="palette" id="palette" aria-label="Cores disponíveis"></div>
   </header>
 
   <main>
-    <p class="instructions">Verde: cor e posição certas. Branco: cor certa em outra posição.</p>
+    <p class="instructions"><strong>Verde</strong>: cor e posição certas. <strong>Branco</strong>: cor certa em outra posição.</p>
     <section id="board" aria-live="polite" aria-label="Tentativas"></section>
   </main>
 
@@ -28,9 +28,11 @@
 
   <div class="modal" id="victoryModal" role="dialog" aria-modal="true" aria-labelledby="victoryTitle">
     <div class="victory-card">
-      <h2 id="victoryTitle">Você acertou!</h2>
-      <div class="solution" id="solution" aria-label="Sequência correta"></div>
-      <p>Com essas cores siga para resolver o enigma.</p>
+      <div class="victory-scene" role="img" aria-label="Seis cavaleiros diante de um portão medieval completo">
+        <h2 id="victoryTitle">O portão foi revelado!</h2>
+        <div class="solution" id="solution" aria-label="Sequência correta sobre o portão"></div>
+        <p class="victory-message">Agora junte os fragmentos de cada escudo, monte a chave e liberte a princesa para receber o Livro dos Enigmas!</p>
+      </div>
     </div>
   </div>
 

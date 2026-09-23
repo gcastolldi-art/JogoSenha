@@ -68,11 +68,13 @@ h1 { margin: 0; font-size: clamp(1.15rem, 4vw, 1.65rem); letter-spacing: .02em; 
 
 .palette {
   display: grid;
-  grid-template-columns: repeat(12, minmax(38px, 1fr));
-  width: min(820px, 100%);
+  grid-template-columns: repeat(6, minmax(38px, 1fr));
+  grid-template-rows: repeat(2, auto);
+  justify-items: center;
+  width: min(430px, 100%);
   margin: 0 auto;
   gap: 9px;
-  overflow-x: auto;
+  overflow-x: visible;
   padding: 4px 2px 7px;
   scrollbar-width: thin;
 }
@@ -208,14 +210,23 @@ main { width: min(760px, calc(100% - 24px)); margin: 0 auto; padding: 24px 0 80p
 
 .modal.show .victory-card { transform: scale(1); }
 .victory-card h2 { margin: 0 0 22px; font-size: clamp(2rem, 8vw, 3.3rem); line-height: 1; }
-.solution { display: flex; justify-content: center; gap: clamp(7px, 2.6vw, 15px); margin: 0 auto 24px; }
-.solution-dot { width: clamp(43px, 12vw, 62px); aspect-ratio: 1; }
+.solution { display: flex; justify-content: center; gap: clamp(5px, 1.8vw, 12px); margin: 0 auto 24px; }
+.solution-dot {
+  display: grid;
+  place-items: center;
+  width: clamp(30px, 9vw, 52px);
+  aspect-ratio: 1;
+  font-size: clamp(.9rem, 4vw, 1.35rem);
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .28);
+}
 .victory-card p { margin: 0; color: #d7dae0; font-size: clamp(1rem, 3.7vw, 1.22rem); line-height: 1.45; }
 
 #confetti { position: fixed; z-index: 90; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
 @media (max-width: 620px) {
-  :root { --size: clamp(32px, 10vw, 42px); }
+  :root { --size: clamp(28px, 9vw, 36px); }
   .palette-shell { padding-inline: 10px; padding-bottom: 10px; }
   .topbar { margin-bottom: 8px; }
   .palette {
@@ -229,8 +240,8 @@ main { width: min(760px, calc(100% - 24px)); margin: 0 auto; padding: 24px 0 80p
   .color-choice { width: clamp(34px, 10.5vw, 40px); }
   main { width: min(100% - 16px, 760px); padding-top: 16px; }
   .instructions { margin-bottom: 12px; font-size: .78rem; }
-  .attempt { min-height: calc(var(--size) + 24px); padding: 10px 6px; gap: 5px; }
-  .slots { gap: 4px; padding: 4px 2px; }
+  .attempt { min-height: calc(var(--size) + 24px); padding: 10px 4px; gap: 4px; }
+  .slots { gap: 3px; padding: 4px 1px; overflow-x: hidden; }
   .hints { grid-template-columns: repeat(var(--hint-columns, 3), 12px); gap: 5px; min-width: 36px; }
   .hint { width: 12px; height: 12px; }
   .subtitle { display: none; }
@@ -242,4 +253,218 @@ main { width: min(760px, calc(100% - 24px)); margin: 0 auto; padding: 24px 0 80p
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* Tema medieval */
+:root {
+  --bg-1: #090704;
+  --bg-2: #21170e;
+  --panel: rgba(29, 21, 14, .94);
+  --line: rgba(195, 139, 55, .38);
+  --text: #f3dfb0;
+  --muted: #c5aa7a;
+  --slot: #50473b;
+  --accent: #d9a54d;
+  --correct: #35a95d;
+}
+
+body {
+  background:
+    radial-gradient(circle at 14% 8%, rgba(213, 133, 38, .16), transparent 25%),
+    radial-gradient(circle at 86% 12%, rgba(213, 133, 38, .13), transparent 24%),
+    repeating-linear-gradient(0deg, transparent 0 42px, rgba(0,0,0,.24) 43px 45px),
+    repeating-linear-gradient(90deg, transparent 0 82px, rgba(0,0,0,.18) 83px 85px),
+    linear-gradient(145deg, #2a2118, #0b0906 68%);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .32;
+  background-image:
+    radial-gradient(circle at 10% 18%, #f29a2e 0 2px, transparent 3px),
+    radial-gradient(circle at 91% 32%, #f7b64a 0 1px, transparent 2px),
+    radial-gradient(circle at 18% 78%, #d56a1e 0 1px, transparent 2px);
+  background-size: 120px 160px, 150px 190px, 190px 230px;
+}
+
+.palette-shell {
+  border-bottom: 3px ridge #8d602b;
+  background:
+    linear-gradient(90deg, rgba(217,165,77,.08), transparent 25% 75%, rgba(217,165,77,.08)),
+    linear-gradient(#251a10, #120e09);
+  box-shadow: 0 10px 30px rgba(0,0,0,.65), inset 0 -1px 0 #d5a14a;
+}
+
+h1 {
+  color: #f0ca78;
+  font-variant: small-caps;
+  letter-spacing: .07em;
+  text-shadow: 0 2px 0 #3b220d, 0 0 14px rgba(238,165,60,.35);
+}
+
+.subtitle { color: #c9ad78; letter-spacing: .035em; }
+
+.restart {
+  border: 1px solid #a87935;
+  border-radius: 4px;
+  background: linear-gradient(#4b321b, #24170d);
+  color: #f4d998;
+  box-shadow: inset 0 0 0 2px rgba(25,14,6,.7), 0 2px 8px rgba(0,0,0,.5);
+  font-weight: 700;
+}
+
+.restart:hover { background: linear-gradient(#684722, #302010); }
+
+.color-choice, .slot, .solution-dot {
+  border-color: #a67a3d;
+  box-shadow:
+    inset 0 0 0 3px rgba(25,17,10,.35),
+    0 0 0 2px #46301a,
+    0 4px 10px rgba(0,0,0,.5);
+}
+
+.color-choice:hover, .color-choice:focus-visible {
+  box-shadow: 0 0 0 3px #e6c477, 0 0 20px rgba(244,158,48,.7);
+}
+
+main::before {
+  content: "✦  O conhecimento abrirá o portão  ✦";
+  display: block;
+  margin: 0 auto 13px;
+  color: #d9ad5d;
+  text-align: center;
+  font-size: clamp(.82rem, 3vw, 1rem);
+  letter-spacing: .06em;
+}
+
+.instructions {
+  color: #d0bc91;
+  text-shadow: 0 1px 2px #000;
+}
+
+.instructions strong:first-child { color: #6dd98c; }
+
+.attempt {
+  border: 2px ridge #8d632e;
+  border-radius: 7px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.035), transparent 45%),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.1) 0 2px, transparent 2px 8px),
+    linear-gradient(#34291d, #1b1510);
+  box-shadow: inset 0 0 18px rgba(0,0,0,.55), 0 8px 20px rgba(0,0,0,.38);
+}
+
+.slot {
+  border: 3px ridge #8f6b3a;
+  background:
+    radial-gradient(circle at 38% 32%, #71675a, #3a342c 70%);
+}
+
+.slot.selected {
+  border-color: #f1c76e;
+  box-shadow: 0 0 0 3px rgba(241,199,110,.35), 0 0 24px rgba(240,145,39,.65);
+}
+
+.hint {
+  border: 1px solid #806641;
+  background: #30291f;
+}
+
+.attempt-number { color: #b99b67; font-weight: 700; }
+
+.modal {
+  padding: 10px;
+  background: rgba(5, 3, 2, .88);
+}
+
+.victory-card {
+  width: min(640px, calc(100vw - 20px));
+  max-height: calc(100dvh - 20px);
+  padding: 0;
+  overflow: hidden;
+  border: 3px ridge #bd8941;
+  border-radius: 8px;
+  background: #110c07;
+  box-shadow: 0 0 0 3px #3a250f, 0 24px 80px #000, 0 0 45px rgba(226,139,37,.24);
+}
+
+.victory-scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  max-height: calc(100dvh - 26px);
+  background: #15100b url("portao-final-medieval.png") center / contain no-repeat;
+}
+
+.victory-card h2 {
+  position: absolute;
+  z-index: 2;
+  top: 2.2%;
+  left: 50%;
+  width: 88%;
+  margin: 0;
+  padding: .34em .6em;
+  transform: translateX(-50%);
+  border: 1px solid rgba(229,181,91,.72);
+  background: linear-gradient(90deg, transparent, rgba(10,7,4,.88) 12% 88%, transparent);
+  color: #f5d68c;
+  font-size: clamp(1.1rem, 5vw, 2.2rem);
+  font-variant: small-caps;
+  letter-spacing: .045em;
+  text-shadow: 0 2px 2px #000, 0 0 12px rgba(245,163,54,.65);
+}
+
+.solution {
+  position: absolute;
+  z-index: 3;
+  top: 46.15%;
+  left: 50%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  width: 51.7%;
+  margin: 0;
+  gap: 3.2%;
+  transform: translate(-50%, -50%);
+}
+
+.solution-dot {
+  width: 100%;
+  min-width: 0;
+  border: clamp(1px, .35vw, 3px) solid #e3bd70;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(.68rem, 3.4vw, 1.55rem);
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,.28), 0 0 8px #f2a43a;
+  text-shadow: 0 1px 2px #000;
+}
+
+.victory-message {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 2.5%;
+  width: 88%;
+  margin: 0;
+  padding: .55em .8em;
+  transform: translateX(-50%);
+  border: 1px solid #ac7b35;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(23,15,8,.76), rgba(10,7,4,.94), rgba(23,15,8,.76));
+  color: #f1d99e !important;
+  font-size: clamp(.74rem, 3.3vw, 1.08rem) !important;
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-shadow: 0 2px 2px #000;
+}
+
+@media (max-width: 620px) {
+  .palette-shell { padding-top: max(9px, env(safe-area-inset-top)); }
+  .restart { min-height: 34px; padding: 6px 9px; }
+  main::before { margin-bottom: 8px; }
+  .victory-card { width: min(94vw, calc((100dvh - 20px) * .6667)); }
+  .victory-scene { max-height: calc(100dvh - 26px); }
 }
