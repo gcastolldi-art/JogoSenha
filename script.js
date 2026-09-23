@@ -3,7 +3,7 @@
  * Escolha de 2 a 12 elementos em CODE_LENGTH.
  * A senha usará, na ordem, essa quantidade de cores de SECRET_COLORS.
  */
-const CODE_LENGTH = 5;
+const CODE_LENGTH = 6;
 const SECRET_COLORS = [
   'verde', 'dourado', 'vermelho', 'azul', 'laranja', 'roxo',
   'turquesa', 'marinho', 'rosa', 'marrom', 'branco', 'preto'
