@@ -27,6 +27,147 @@ passwordInput.addEventListener('keydown', event => {
 
 openButton.addEventListener('click', checkPassword);
 
+function playVictorySound() {
+  const AudioContextClass =
+    window.AudioContext || window.webkitAudioContext;
+
+  if (!AudioContextClass) {
+    return 2800;
+  }
+
+  const audio = new AudioContextClass();
+  const startTime = audio.currentTime;
+
+  const masterGain = audio.createGain();
+  const compressor = audio.createDynamicsCompressor();
+
+  masterGain.gain.setValueAtTime(0.0001, startTime);
+  masterGain.gain.exponentialRampToValueAtTime(
+    0.42,
+    startTime + 0.08
+  );
+  masterGain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    startTime + 2.8
+  );
+
+  masterGain.connect(compressor);
+  compressor.connect(audio.destination);
+
+  /*
+   * Acorde crescente de vitória.
+   */
+  const notes = [
+    { frequency: 392.00, delay: 0.00 },
+    { frequency: 523.25, delay: 0.16 },
+    { frequency: 659.25, delay: 0.34 },
+    { frequency: 783.99, delay: 0.54 },
+    { frequency: 1046.50, delay: 0.78 },
+    { frequency: 1318.51, delay: 1.06 }
+  ];
+
+  notes.forEach((note, index) => {
+    createVictoryNote(
+      audio,
+      masterGain,
+      note.frequency,
+      startTime + note.delay,
+      1.6 + index * 0.12
+    );
+  });
+
+  /*
+   * Notas brilhantes adicionais.
+   */
+  const sparkles = [
+    { frequency: 1567.98, delay: 1.30 },
+    { frequency: 2093.00, delay: 1.52 },
+    { frequency: 1760.00, delay: 1.72 },
+    { frequency: 2637.02, delay: 1.94 }
+  ];
+
+  sparkles.forEach(note => {
+    createVictoryNote(
+      audio,
+      masterGain,
+      note.frequency,
+      startTime + note.delay,
+      0.7,
+      0.045
+    );
+  });
+
+  window.setTimeout(() => {
+    audio.close();
+  }, 3000);
+
+  return 2800;
+}
+
+function createVictoryNote(
+  audio,
+  destination,
+  frequency,
+  startTime,
+  duration,
+  volume = 0.1
+) {
+  const oscillator = audio.createOscillator();
+  const secondaryOscillator = audio.createOscillator();
+  const gain = audio.createGain();
+  const filter = audio.createBiquadFilter();
+
+  oscillator.type = 'sine';
+  secondaryOscillator.type = 'triangle';
+
+  oscillator.frequency.setValueAtTime(
+    frequency,
+    startTime
+  );
+
+  secondaryOscillator.frequency.setValueAtTime(
+    frequency * 2,
+    startTime
+  );
+
+  secondaryOscillator.detune.setValueAtTime(
+    6,
+    startTime
+  );
+
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(
+    5000,
+    startTime
+  );
+
+  gain.gain.setValueAtTime(
+    0.0001,
+    startTime
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    volume,
+    startTime + 0.025
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    startTime + duration
+  );
+
+  oscillator.connect(filter);
+  secondaryOscillator.connect(filter);
+  filter.connect(gain);
+  gain.connect(destination);
+
+  oscillator.start(startTime);
+  secondaryOscillator.start(startTime);
+
+  oscillator.stop(startTime + duration + 0.1);
+  secondaryOscillator.stop(startTime + duration + 0.1);
+}
+
 function checkPassword() {
   if (sequenceRunning) return;
   if (!passwordInput.value.trim()) {
@@ -36,10 +177,22 @@ function checkPassword() {
   }
 
   if (normalize(passwordInput.value) === normalize(BOOK_PASSWORD)) {
-    statusText.textContent = 'A chave despertou o livro...';
+  sequenceRunning = true;
+
+  passwordInput.disabled = true;
+  openButton.disabled = true;
+
+  statusText.textContent =
+    'A chave despertou o Livro dos Enigmas!';
+
+  const soundDuration = playVictorySound();
+
+  window.setTimeout(() => {
     window.location.assign(SUCCESS_URL);
-    return;
-  }
+  }, soundDuration);
+
+  return;
+}
 
   runFailureSequence();
 }
