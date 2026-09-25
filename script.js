@@ -5,8 +5,8 @@
  */
 const CODE_LENGTH = 6;
 const SECRET_COLORS = [
-  'verde', 'dourado', 'vermelho', 'azul', 'laranja', 'roxo',
-  'turquesa', 'marinho', 'rosa', 'marrom', 'branco', 'preto'
+  'verde', 'marinho', 'dourado', 'preto', 'branco', 'marrom',
+  'vermelho', 'azul', 'rosa', 'roxo', 'turquesa', 'laranja'
 ];
 
 /* Defina aqui o número exibido sobre cada cor ao revelar a resposta. */

@@ -12,6 +12,22 @@
   --size: clamp(42px, 10vw, 66px);
 }
 
+.book-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 12px;
+  padding: 9px 20px;
+  border: 1px solid #ffe39b;
+  border-radius: 8px;
+  color: #241503;
+  background: linear-gradient(#f6d77c, #bc7c24);
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 3px 0 #75430c;
+}
+
 * { box-sizing: border-box; }
 
 html { min-height: 100%; background: var(--bg-1); }
@@ -467,4 +483,136 @@ main::before {
   main::before { margin-bottom: 8px; }
   .victory-card { width: min(94vw, calc((100dvh - 20px) * .6667)); }
   .victory-scene { max-height: calc(100dvh - 26px); }
+}
+
+/* Revelação final com o portão animado */
+.modal {
+  padding: 0;
+  background: #090603;
+}
+
+.victory-card {
+  display: grid;
+  grid-template-rows: 50dvh 50dvh;
+  width: 100vw;
+  height: 100dvh;
+  max-height: none;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background:
+    radial-gradient(circle at 50% 72%, rgba(181,111,29,.18), transparent 42%),
+    linear-gradient(#181008, #080503);
+  box-shadow: none;
+}
+
+.victory-upper {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  width: 100%;
+  border-bottom: 2px solid #a87530;
+  background: #0a0704;
+  box-shadow: 0 8px 28px rgba(0,0,0,.65);
+}
+
+.victory-card h2 {
+  position: static;
+  width: 100%;
+  margin: 0;
+  padding: clamp(8px, 1.5vh, 18px) 12px;
+  transform: none;
+  border: 0;
+  border-bottom: 1px solid rgba(219,166,76,.55);
+  background: linear-gradient(90deg, #100a05, #2b1b0c 50%, #100a05);
+  color: #f5d68c;
+  font-size: clamp(1.45rem, 6vw, 3.6rem);
+  font-variant: small-caps;
+  letter-spacing: .06em;
+  text-align: center;
+  text-shadow: 0 3px 2px #000, 0 0 16px rgba(245,163,54,.65);
+}
+
+.victory-gif {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  object-position: center;
+  background: #090603;
+}
+
+.victory-lower {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 4vh, 42px);
+  min-height: 0;
+  width: 100%;
+  padding: clamp(18px, 4vh, 44px) clamp(12px, 4vw, 60px);
+  background:
+    linear-gradient(rgba(255,255,255,.018), transparent 35%),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.12) 0 2px, transparent 2px 9px),
+    linear-gradient(#2b2015, #100b07);
+}
+
+.solution {
+  position: static;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: center;
+  width: min(92vw, 760px);
+  margin: 0;
+  gap: clamp(5px, 1.8vw, 18px);
+  transform: none;
+}
+
+.solution-dot {
+  width: 100%;
+  min-width: 0;
+  max-width: 112px;
+  justify-self: center;
+  border: clamp(2px, .45vw, 5px) solid #e3bd70;
+  font-size: clamp(1rem, 4vw, 2.2rem);
+  box-shadow:
+    inset 0 0 0 3px rgba(0,0,0,.28),
+    0 0 0 2px #4b2f13,
+    0 0 18px rgba(242,164,58,.62);
+}
+
+.victory-message {
+  position: static;
+  width: min(92vw, 900px);
+  margin: 0;
+  padding: clamp(14px, 2.5vh, 25px) clamp(16px, 4vw, 42px);
+  transform: none;
+  border: 2px ridge #b27b31;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #1b1108, #30200f 50%, #1b1108);
+  color: #f4dda6 !important;
+  font-size: clamp(.95rem, 3.2vw, 1.55rem) !important;
+  font-weight: 700;
+  line-height: 1.35 !important;
+  text-align: center;
+  text-shadow: 0 2px 2px #000;
+  box-shadow: inset 0 0 18px rgba(0,0,0,.45), 0 6px 20px rgba(0,0,0,.38);
+}
+
+#confetti { z-index: 110; }
+
+@media (max-width: 620px) {
+  .victory-card {
+    grid-template-rows: 50dvh 50dvh;
+    width: 100vw;
+    height: 100dvh;
+  }
+
+  .victory-upper { min-height: 0; }
+  .victory-card h2 { font-size: clamp(1.35rem, 7vw, 2rem); letter-spacing: .035em; }
+  .victory-lower { gap: clamp(14px, 3vh, 24px); padding: 16px 8px max(16px, env(safe-area-inset-bottom)); }
+  .solution { width: calc(100vw - 16px); gap: 5px; }
+  .solution-dot { font-size: clamp(.88rem, 4.7vw, 1.25rem); border-width: 2px; }
+  .victory-message { width: calc(100vw - 20px); padding: 12px 10px; font-size: clamp(.82rem, 3.8vw, 1rem) !important; }
 }

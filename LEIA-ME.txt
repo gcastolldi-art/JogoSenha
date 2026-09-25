@@ -1,0 +1,39 @@
+JOGO DA SENHA MEDIEVAL - VERSAO 2.0
+
+MODIFICACOES DA CENA FINAL
+
+1. O titulo "O PORTAO FOI ABERTO" aparece no topo da tela.
+2. O arquivo Portao_da_Torre_sem_bordas.gif e exibido abaixo do titulo.
+3. O GIF possui 108 quadros de animacao.
+4. As seis cores da resposta e seus numeros aparecem na metade inferior.
+5. A mensagem sobre os fragmentos aparece abaixo das cores.
+6. A cena final ocupa toda a tela e se adapta ao celular.
+
+ARQUIVOS ALTERADOS
+
+- index.html: nova estrutura da cena final e inclusao do GIF.
+- style.css: novo layout em duas metades e responsividade.
+- script.js: mantem a criacao dinamica das cores e dos numeros.
+- Portao_da_Torre_sem_bordas.gif: animacao usada na revelacao.
+
+COMO TESTAR
+
+Mantenha todos os arquivos na mesma pasta e abra index.html no navegador.
+Para chegar imediatamente a cena final durante um teste, use a sequencia
+configurada em SECRET_COLORS no inicio de script.js.
+NOVA PÁGINA: LIVRO DOS ENIGMAS
+================================
+
+Abra LivroEnigmas.html para acessar a cena da princesa e o campo de senha.
+
+Configuração da senha:
+- Abra livro-enigmas.js.
+- Altere BOOK_PASSWORD na primeira seção do arquivo.
+- O valor inicial é: LIVRO DOS ENIGMAS
+- O destino correto está em SUCCESS_URL.
+
+Senha incorreta:
+- A cena escurece progressivamente.
+- O navegador produz raios e trovões por áudio sintetizado.
+- O feiticeiro aparece com a mensagem de erro por 3 segundos.
+- Em seguida, a princesa e o formulário retornam.

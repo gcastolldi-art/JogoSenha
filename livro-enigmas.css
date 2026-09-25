@@ -1,0 +1,189 @@
+:root {
+  color-scheme: dark;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #080b12;
+}
+
+button, input { font: inherit; }
+
+.book-scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  isolation: isolate;
+  overflow: hidden;
+  background: #080b12;
+}
+
+.scene-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: opacity 1.35s ease, filter 1.35s ease, transform 5s ease;
+}
+
+.darkness {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 43%, rgba(12, 22, 29, .18), rgba(0, 0, 0, .94) 78%);
+  transition: opacity 1.5s ease;
+}
+
+.lightning {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  background: radial-gradient(circle at 50% 35%, rgba(205, 255, 186, .88), rgba(103, 255, 60, .2) 35%, transparent 68%);
+}
+
+.password-panel {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: max(4vh, env(safe-area-inset-bottom));
+  width: min(90vw, 520px);
+  padding: clamp(15px, 2.5vw, 25px);
+  transform: translateX(-50%);
+  text-align: center;
+  border: 2px solid #d8ad51;
+  border-radius: 16px;
+  color: #fff1bd;
+  background: linear-gradient(145deg, rgba(12, 17, 27, .92), rgba(41, 29, 16, .9));
+  box-shadow: 0 0 0 4px rgba(25, 13, 5, .65), 0 8px 34px #000, inset 0 0 22px rgba(221, 165, 60, .16);
+  transition: opacity .5s ease, transform .5s ease, visibility .5s;
+}
+
+.password-panel h1 {
+  margin: 0 0 10px;
+  color: #ffe199;
+  font-size: clamp(1.2rem, 4.5vw, 2rem);
+  text-shadow: 0 2px 4px #000;
+}
+
+.password-panel label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 700;
+}
+
+.password-panel input {
+  width: 100%;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 2px solid #b78b36;
+  border-radius: 9px;
+  outline: 0;
+  color: #fff;
+  background: rgba(0, 0, 0, .72);
+  text-align: center;
+  text-transform: uppercase;
+  font: 700 clamp(1rem, 4vw, 1.35rem) system-ui, sans-serif;
+  letter-spacing: .08em;
+}
+
+.password-panel input:focus {
+  border-color: #ffe19a;
+  box-shadow: 0 0 14px rgba(255, 210, 106, .7);
+}
+
+.password-panel button {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 11px;
+  border: 1px solid #ffe39b;
+  border-radius: 9px;
+  cursor: pointer;
+  color: #251403;
+  background: linear-gradient(#f7d985, #b97b24);
+  font-weight: 800;
+  box-shadow: 0 3px 0 #74430e, 0 5px 14px rgba(0, 0, 0, .5);
+}
+
+.password-panel button:active { transform: translateY(2px); }
+.status { min-height: 1.2em; margin: 8px 0 0; color: #fff0b5; }
+
+.wizard-layer {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.35s ease, visibility 1.35s;
+}
+
+.wizard-image {
+  position: absolute;
+  width: min(88vw, 760px);
+  height: min(82vh, 860px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 22px rgba(77, 255, 62, .6)) drop-shadow(0 0 36px rgba(162, 45, 255, .5));
+}
+
+.wizard-layer p {
+  position: absolute;
+  bottom: max(7vh, env(safe-area-inset-bottom));
+  width: min(92vw, 760px);
+  margin: 0;
+  padding: .5em .7em;
+  text-align: center;
+  color: #7dff68;
+  font-size: clamp(1.45rem, 6vw, 3.25rem);
+  font-weight: 900;
+  line-height: 1.05;
+  text-shadow: 0 3px 3px #000, 0 0 9px #000, 0 0 20px #1d8c1c;
+}
+
+.book-scene.failing .princess-image {
+  opacity: .06;
+  filter: brightness(.24) saturate(.45);
+  transform: scale(1.025);
+}
+
+.book-scene.failing .darkness { opacity: 1; }
+.book-scene.failing .password-panel { opacity: 0; visibility: hidden; transform: translate(-50%, 20px); }
+.book-scene.wizard-visible .wizard-layer { opacity: 1; visibility: visible; }
+
+.book-scene.lightning-flash .lightning { animation: flash .7s steps(2, end); }
+
+@keyframes flash {
+  0%, 100% { opacity: 0; }
+  9% { opacity: .95; }
+  18% { opacity: .1; }
+  28% { opacity: .78; }
+  43% { opacity: 0; }
+  55% { opacity: .5; }
+}
+
+@media (max-width: 600px) {
+  .scene-image { object-position: center top; }
+  .password-panel { bottom: max(2vh, env(safe-area-inset-bottom)); }
+  .wizard-image { width: 100vw; height: 76vh; }
+  .wizard-layer p { bottom: max(4vh, env(safe-area-inset-bottom)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-image, .darkness, .password-panel, .wizard-layer { transition-duration: .2s; }
+  .lightning { display: none; }
+}

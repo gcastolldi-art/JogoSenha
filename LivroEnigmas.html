@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#10151f">
+  <title>O Livro dos Enigmas</title>
+  <link rel="stylesheet" href="livro-enigmas.css">
+</head>
+<body>
+  <main class="book-scene" id="bookScene">
+    <img class="scene-image princess-image" src="princesa_final.png" alt="A princesa apresenta o Livro dos Enigmas aos cavaleiros">
+    <div class="darkness" aria-hidden="true"></div>
+    <div class="lightning" aria-hidden="true"></div>
+
+    <section class="password-panel" id="passwordPanel" aria-labelledby="passwordTitle">
+      <h1 id="passwordTitle">Desperte o <br>Livro dos Enigmas</h1>
+      <label for="bookPassword">Digite a chave</label>
+      <input id="bookPassword" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="60">
+      <button id="openBook" type="button">Abrir o Livro</button>
+      <p class="status" id="passwordStatus" aria-live="polite"></p>
+    </section>
+
+    <section class="wizard-layer" id="wizardLayer" aria-hidden="true">
+      <img class="wizard-image" src="feiticeiro.png" alt="O feiticeiro surge em meio a raios verdes e roxos">
+      <p>Esta não é a chave.<br>Tente novamente!</p>
+    </section>
+  </main>
+
+  <script src="livro-enigmas.js"></script>
+</body>
+</html>
