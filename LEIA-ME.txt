@@ -24,6 +24,21 @@ configurada em SECRET_COLORS no inicio de script.js.
 NOVA PÁGINA: LIVRO DOS ENIGMAS
 ================================
 
+ACESSO POR EQUIPE
+=================
+
+O jogo deve ser acessado com o parâmetro da equipe, por exemplo:
+https://gcastolldi-art.github.io/JogoSenha/index.html?equipe=rosa
+
+O parâmetro é mantido automaticamente ao abrir LivroEnigmas.html.
+Após acertar a senha, uma única rotina monta o endereço de destino usando:
+- A equipe recebida no parâmetro ?equipe=
+- O código definido em TEAM_ACCESS_CODE, no arquivo livro-enigmas.js
+
+Equipes reconhecidas:
+Vermelho, Laranja, Amarelo, Verde, Azul, Marinho, Roxo, Rosa,
+Marrom, Turquesa, Preto e Branco.
+
 Abra LivroEnigmas.html para acessar a cena da princesa e o campo de senha.
 
 Configuração da senha:

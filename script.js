@@ -616,3 +616,14 @@ window.addEventListener('resize', () => { if (confettiPieces.length) resizeCanva
 
 renderPalette();
 createAttempt();
+
+/*
+ * Mantém a identificação da equipe ao passar do jogo
+ * para a página LivroEnigmas.html.
+ */
+const bookLink = document.getElementById('bookLink');
+const incomingTeam = new URLSearchParams(window.location.search).get('equipe');
+
+if (bookLink && incomingTeam) {
+  bookLink.href = `LivroEnigmas.html?equipe=${encodeURIComponent(incomingTeam)}`;
+}

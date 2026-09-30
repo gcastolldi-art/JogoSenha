@@ -1,6 +1,44 @@
-/* CONFIGURAÇÃO: altere aqui a senha e o destino após o acerto. */
-const BOOK_PASSWORD = 'XX';
-const SUCCESS_URL = 'https://sig.crea-pr.org.br';
+/* CONFIGURAÇÃO: altere aqui a senha e o código de acesso ao destino. */
+const BOOK_PASSWORD = 'ESCUDO';
+const SUCCESS_URL_BASE = 'https://gcastolldi-art.github.io/livro-dos-enigmas/';
+const TEAM_ACCESS_CODE = 'XYZ';
+
+/*
+ * Uma única rotina reconhece a equipe recebida em ?equipe=.
+ * Os valores são convertidos para a grafia esperada pelo site de destino.
+ */
+const TEAM_NAMES = {
+  vermelho: 'Vermelho',
+  laranja: 'Laranja',
+  amarelo: 'Amarelo',
+  verde: 'Verde',
+  azul: 'Azul',
+  marinho: 'Marinho',
+  roxo: 'Roxo',
+  rosa: 'Rosa',
+  marrom: 'Marrom',
+  turquesa: 'Turquesa',
+  preto: 'Preto',
+  branco: 'Branco'
+};
+
+const requestedTeam = new URLSearchParams(window.location.search)
+  .get('equipe')
+  ?.trim()
+  .toLocaleLowerCase('pt-BR');
+
+const activeTeam = TEAM_NAMES[requestedTeam] || null;
+
+function getSuccessUrl() {
+  if (!activeTeam) return null;
+
+  const fragment = new URLSearchParams({
+    equipe: activeTeam,
+    codigo: TEAM_ACCESS_CODE
+  });
+
+  return `${SUCCESS_URL_BASE}#${fragment.toString()}`;
+}
 
 const scene = document.getElementById('bookScene');
 const passwordPanel = document.getElementById('passwordPanel');
@@ -177,22 +215,29 @@ function checkPassword() {
   }
 
   if (normalize(passwordInput.value) === normalize(BOOK_PASSWORD)) {
-  sequenceRunning = true;
+    const successUrl = getSuccessUrl();
 
-  passwordInput.disabled = true;
-  openButton.disabled = true;
+    if (!successUrl) {
+      statusText.textContent =
+        'Equipe não identificada. Acesse novamente pelo link oficial da sua equipe.';
+      return;
+    }
 
-  statusText.textContent =
-    'A chave despertou o Livro dos Enigmas!';
+    sequenceRunning = true;
+    passwordInput.disabled = true;
+    openButton.disabled = true;
 
-  const soundDuration = playVictorySound();
+    statusText.textContent =
+      'A chave despertou o Livro dos Enigmas!';
 
-  window.setTimeout(() => {
-    window.location.assign(SUCCESS_URL);
-  }, soundDuration);
+    const soundDuration = playVictorySound();
 
-  return;
-}
+    window.setTimeout(() => {
+      window.location.assign(successUrl);
+    }, soundDuration);
+
+    return;
+  }
 
   runFailureSequence();
 }
