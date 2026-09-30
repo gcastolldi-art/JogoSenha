@@ -4,31 +4,28 @@
  * A senha usará, na ordem, essa quantidade de cores de SECRET_COLORS.
  */
 const CODE_LENGTH = 6;
-const SECRET_COLORS = [
-  'verde', 'marinho', 'dourado', 'preto', 'branco', 'marrom',
-  'vermelho', 'azul', 'rosa', 'roxo', 'turquesa', 'laranja'
-];
+const SECRET_COLORS = ['branco', 'preto', 'rosa', 'marrom', 'verde', 'amarelo'];
 
 /* Defina aqui o número exibido sobre cada cor ao revelar a resposta. */
 const COLOR_NUMBERS = {
-  verde: 1,
-  marinho: 2,
-  dourado: 3,
-  preto: 4,
-  branco: 5,
-  marrom: 6,
-  vermelho: 7,
-  azul: 8,
-  rosa: 9,
-  roxo: 10,
-  turquesa: 11,
-  laranja: 12
+  verde: 7,
+  marinho: 0,
+  amarelo: 4,
+  preto: 6,
+  branco: 1,
+  marrom: 3,
+  vermelho: 0,
+  azul: 0,
+  rosa: 5,
+  roxo: 0,
+  turquesa: 0,
+  laranja: 0
 };
 
 const COLORS = [
   { id: 'verde',    name: 'Verde',    value: '#20a65a' },
   { id: 'marinho',  name: 'Marinho',  value: '#123b75' },
-  { id: 'dourado',  name: 'Dourado',  value: '#e3ad24' },
+  { id: 'amarelo',  name: 'Amarelo',  value: '#e3ad24' },
   { id: 'preto',    name: 'Preto',    value: '#111216' },
   { id: 'branco',   name: 'Branco',   value: '#f2f2ed' },
   { id: 'marrom',   name: 'Marrom',   value: '#754428' },

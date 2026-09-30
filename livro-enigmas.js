@@ -1,5 +1,5 @@
 /* CONFIGURAÇÃO: altere aqui a senha e o código de acesso ao destino. */
-const BOOK_PASSWORD = 'ESCUDO';
+const BOOK_PASSWORD = 'PRISÃO';
 const SUCCESS_URL_BASE = 'https://gcastolldi-art.github.io/livro-dos-enigmas/';
 const TEAM_ACCESS_CODE = 'XYZ';
 
@@ -8,9 +8,9 @@ const TEAM_ACCESS_CODE = 'XYZ';
  * Os valores são convertidos para a grafia esperada pelo site de destino.
  */
 const TEAM_NAMES = {
-  vermelho: 'Vermelho',
+  vermelha: 'Vermelho',
   laranja: 'Laranja',
-  amarelo: 'Amarelo',
+  amarela: 'Amarelo',
   verde: 'Verde',
   azul: 'Azul',
   marinho: 'Marinho',
@@ -18,8 +18,8 @@ const TEAM_NAMES = {
   rosa: 'Rosa',
   marrom: 'Marrom',
   turquesa: 'Turquesa',
-  preto: 'Preto',
-  branco: 'Branco'
+  preta: 'Preto',
+  branca: 'Branco'
 };
 
 const requestedTeam = new URLSearchParams(window.location.search)
