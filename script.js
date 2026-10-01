@@ -398,13 +398,11 @@ function drawMagicGlow(particle, pulse) {
   ctx.restore();
 }
 
+
 function playMagicSound() {
   unlockMagicAudio();
 
-  if (
-    !magicAudioContext ||
-    magicAudioContext.state !== 'running'
-  ) {
+  if (!magicAudioContext || magicAudioContext.state !== 'running') {
     return;
   }
 
@@ -412,115 +410,71 @@ function playMagicSound() {
   const startTime = audio.currentTime;
   const masterGain = audio.createGain();
 
-  masterGain.gain.setValueAtTime(0.0001, startTime);
-  masterGain.gain.exponentialRampToValueAtTime(
-    0.32,
-    startTime + 0.08
-  );
-  masterGain.gain.exponentialRampToValueAtTime(
-    0.0001,
-    startTime + 5.8
-  );
-
+  // Volume geral da corneta
+  masterGain.gain.setValueAtTime(0.3, startTime);
   masterGain.connect(audio.destination);
 
-  const notes = [
-    { frequency: 523.25, delay: 0.00 },
-    { frequency: 659.25, delay: 0.18 },
-    { frequency: 783.99, delay: 0.38 },
-    { frequency: 1046.50, delay: 0.66 },
-    { frequency: 1318.51, delay: 1.05 },
-    { frequency: 1567.98, delay: 1.48 },
-    { frequency: 2093.00, delay: 2.05 }
+  // Sequência clássica de notas de corneta (Toque de Alvorada/Carga simplificado)
+  // Frequências: Sol3 (196Hz), Dó4 (261.63Hz), Mi4 (329.63Hz), Sol4 (392Hz)
+  const bugleNotes = [
+    { frequency: 196.00, delay: 0.00, duration: 0.3 }, // Sol
+    { frequency: 261.63, delay: 0.18, duration: 0.3 }, // Dó
+    { frequency: 329.63, delay: 0.36, duration: 0.3 }, // Mi
+    { frequency: 392.00, delay: 0.54, duration: 0.8 }, // Sol (longo)
+    
+    { frequency: 329.63, delay: 1.00, duration: 0.3 }, // Mi
+    { frequency: 392.00, delay: 1.18, duration: 2.0 }  // Sol (longo final)
   ];
 
-  notes.forEach((note, index) => {
-    createMagicChime(
+  bugleNotes.forEach(note => {
+    createBugleNote(
       audio,
       masterGain,
       note.frequency,
       startTime + note.delay,
-      2.4 + index * 0.15
+      note.duration
     );
   });
-
-  /*
-   * Pequenos brilhos aleatórios após o acorde principal.
-   */
-  for (let index = 0; index < 16; index += 1) {
-    const frequencies = [
-      1046.50,
-      1174.66,
-      1318.51,
-      1567.98,
-      1760.00,
-      2093.00
-    ];
-
-    const frequency =
-      frequencies[
-        Math.floor(Math.random() * frequencies.length)
-      ];
-
-    const delay = 1.4 + Math.random() * 3.5;
-
-    createMagicChime(
-      audio,
-      masterGain,
-      frequency,
-      startTime + delay,
-      0.7 + Math.random() * 0.8,
-      0.025
-    );
-  }
 }
 
-function createMagicChime(
-  audio,
-  destination,
-  frequency,
-  startTime,
-  duration,
-  volume = 0.075
-) {
-  const oscillator = audio.createOscillator();
-  const gain = audio.createGain();
+function createBugleNote(audio, destination, frequency, startTime, duration) {
+  // 1. Oscilador principal com onda 'sawtooth' (som metálico de sopro)
+  const osc1 = audio.createOscillator();
+  osc1.type = 'sawtooth';
+  osc1.frequency.setValueAtTime(frequency, startTime);
+
+  // 2. Segundo oscilador para encorpar o som do instrumento de metal
+  const osc2 = audio.createOscillator();
+  osc2.type = 'triangle';
+  osc2.frequency.setValueAtTime(frequency, startTime);
+  osc2.detune.setValueAtTime(4, startTime); // Leve desafinação para dar corpo ao som
+
+  // 3. Filtro passa-baixa para suavizar o agudo áspero do dente de serra
   const filter = audio.createBiquadFilter();
+  filter.type = 'lowpass';
+  // Abre o filtro levemente no início da nota simulando a pressão do sopro
+  filter.frequency.setValueAtTime(1200, startTime);
+  filter.frequency.exponentialRampToValueAtTime(2500, startTime + 0.05);
+  filter.frequency.exponentialRampToValueAtTime(800, startTime + duration);
 
-  oscillator.type = 'sine';
-  oscillator.frequency.setValueAtTime(
-    frequency,
-    startTime
-  );
+  // 4. Controle de volume/envelope da nota (Ataque rápido, sustentação e decaimento)
+  const noteGain = audio.createGain();
+  noteGain.gain.setValueAtTime(0.0001, startTime);
+  noteGain.gain.linearRampToValueAtTime(0.3, startTime + 0.02); // Ataque do sopro (20ms)
+  noteGain.gain.setValueAtTime(0.25, startTime + duration - 0.05);
+  noteGain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration); // Término da nota
 
-  /*
-   * Uma segunda frequência levemente deslocada produz
-   * o efeito cintilante.
-   */
-  oscillator.detune.setValueAtTime(
-    -5 + Math.random() * 10,
-    startTime
-  );
+  // Conexão dos nós de áudio
+  osc1.connect(filter);
+  osc2.connect(filter);
+  filter.connect(noteGain);
+  noteGain.connect(destination);
 
-  filter.type = 'highpass';
-  filter.frequency.setValueAtTime(500, startTime);
-
-  gain.gain.setValueAtTime(0.0001, startTime);
-  gain.gain.exponentialRampToValueAtTime(
-    volume,
-    startTime + 0.025
-  );
-  gain.gain.exponentialRampToValueAtTime(
-    0.0001,
-    startTime + duration
-  );
-
-  oscillator.connect(filter);
-  filter.connect(gain);
-  gain.connect(destination);
-
-  oscillator.start(startTime);
-  oscillator.stop(startTime + duration + 0.1);
+  // Execução da nota
+  osc1.start(startTime);
+  osc2.start(startTime);
+  osc1.stop(startTime + duration + 0.05);
+  osc2.stop(startTime + duration + 0.05);
 }
 
 function launchConfetti() {

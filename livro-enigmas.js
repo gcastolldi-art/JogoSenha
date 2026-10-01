@@ -80,64 +80,57 @@ function playVictorySound() {
   const compressor = audio.createDynamicsCompressor();
 
   masterGain.gain.setValueAtTime(0.0001, startTime);
-  masterGain.gain.exponentialRampToValueAtTime(
-    0.42,
-    startTime + 0.08
-  );
-  masterGain.gain.exponentialRampToValueAtTime(
-    0.0001,
-    startTime + 2.8
-  );
+  masterGain.gain.exponentialRampToValueAtTime(0.35, startTime + 0.05);
+  masterGain.gain.exponentialRampToValueAtTime(0.0001, startTime + 3.2);
 
   masterGain.connect(compressor);
   compressor.connect(audio.destination);
 
   /*
-   * Acorde crescente de vitória.
+   * Cascata de notas celestiais e super agudas (Arpejo de encantamento)
    */
-  const notes = [
-    { frequency: 392.00, delay: 0.00 },
-    { frequency: 523.25, delay: 0.16 },
-    { frequency: 659.25, delay: 0.34 },
-    { frequency: 783.99, delay: 0.54 },
-    { frequency: 1046.50, delay: 0.78 },
-    { frequency: 1318.51, delay: 1.06 }
+  const fairyNotes = [
+    { frequency: 1046.50, delay: 0.00 }, // Dó (C6)
+    { frequency: 1318.51, delay: 0.08 }, // Mi (E6)
+    { frequency: 1567.98, delay: 0.16 }, // Sol (G6)
+    { frequency: 2093.00, delay: 0.24 }, // Dó (C7)
+    { frequency: 2637.02, delay: 0.32 }, // Mi (E7)
+    { frequency: 3135.96, delay: 0.40 }, // Sol (G7)
+    { frequency: 4186.01, delay: 0.50 }  // Dó (C8 - Brilho super agudo)
   ];
 
-  notes.forEach((note, index) => {
+  fairyNotes.forEach((note) => {
     createVictoryNote(
       audio,
       masterGain,
       note.frequency,
       startTime + note.delay,
-      1.6 + index * 0.12
+      1.8
     );
   });
 
   /*
-   * Notas brilhantes adicionais.
+   * "Pó de pirlimpimpim": chuva aleatória de estrelinhas cintilantes
    */
-  const sparkles = [
-    { frequency: 1567.98, delay: 1.30 },
-    { frequency: 2093.00, delay: 1.52 },
-    { frequency: 1760.00, delay: 1.72 },
-    { frequency: 2637.02, delay: 1.94 }
-  ];
+  const sparkleFrequencies = [2093.00, 2637.02, 3135.96, 3520.00, 4186.01, 4698.63];
 
-  sparkles.forEach(note => {
+  for (let i = 0; i < 20; i++) {
+    const randomFreq = sparkleFrequencies[Math.floor(Math.random() * sparkleFrequencies.length)];
+    const randomDelay = 0.6 + Math.random() * 1.8; // Ocorre durante o brilho final
+
     createVictoryNote(
       audio,
       masterGain,
-      note.frequency,
-      startTime + note.delay,
-      0.7,
-      0.045
+      randomFreq,
+      startTime + randomDelay,
+      0.4,
+      0.025
     );
-  });
+  }
 
   window.setTimeout(() => {
     audio.close();
-  }, 3000);
+  }, 3500);
 
   return 2800;
 }
@@ -148,51 +141,31 @@ function createVictoryNote(
   frequency,
   startTime,
   duration,
-  volume = 0.1
+  volume = 1.08
 ) {
   const oscillator = audio.createOscillator();
   const secondaryOscillator = audio.createOscillator();
   const gain = audio.createGain();
   const filter = audio.createBiquadFilter();
 
+  // Ondas seno pura geram sons cristalinos de sino/estrela
   oscillator.type = 'sine';
-  secondaryOscillator.type = 'triangle';
+  secondaryOscillator.type = 'sine';
 
-  oscillator.frequency.setValueAtTime(
-    frequency,
-    startTime
-  );
+  oscillator.frequency.setValueAtTime(frequency, startTime);
 
-  secondaryOscillator.frequency.setValueAtTime(
-    frequency * 2,
-    startTime
-  );
+  // Segunda frequência levemente deslocada para criar a ilusão de cintilação mágica (shimmer)
+  secondaryOscillator.frequency.setValueAtTime(frequency * 1.002, startTime);
+  secondaryOscillator.detune.setValueAtTime(12, startTime);
 
-  secondaryOscillator.detune.setValueAtTime(
-    6,
-    startTime
-  );
+  // Filtro passa-alta para eliminar frequências graves e deixar só o brilho cristalino
+  filter.type = 'highpass';
+  filter.frequency.setValueAtTime(800, startTime);
 
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(
-    5000,
-    startTime
-  );
-
-  gain.gain.setValueAtTime(
-    0.0001,
-    startTime
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    volume,
-    startTime + 0.025
-  );
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.0001,
-    startTime + duration
-  );
+  // Envelope rápido e ressonante (plim suave)
+  gain.gain.setValueAtTime(0.0001, startTime);
+  gain.gain.exponentialRampToValueAtTime(volume, startTime + 0.015);
+  gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
 
   oscillator.connect(filter);
   secondaryOscillator.connect(filter);

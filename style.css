@@ -191,7 +191,7 @@ main { width: min(760px, calc(100% - 24px)); margin: 0 auto; padding: 24px 0 80p
 }
 
 .hint.correct { background: var(--correct); border-color: #93f2bd; opacity: 1; box-shadow: 0 0 10px rgba(53,208,127,.55); }
-.hint.present { background: #fff; border-color: #fff; opacity: 1; box-shadow: 0 0 9px rgba(255,255,255,.42); }
+.hint.present { background: #d0bc91; border-color: #fff; opacity: 1; box-shadow: 0 0 9px rgba(255,255,255,.42); }
 
 .attempt-number { grid-column: 1 / -1; margin: -3px 0 -6px; color: #777d88; font-size: .69rem; text-align: center; letter-spacing: .12em; text-transform: uppercase; }
 
@@ -349,7 +349,7 @@ h1 {
 }
 
 main::before {
-  content: "✦  O conhecimento abrirá o portão  ✦";
+  content: "✦ Somente o uso correto da lógica abrirá o portão  ✦";
   display: block;
   margin: 0 auto 13px;
   color: #d9ad5d;
@@ -361,6 +361,7 @@ main::before {
 .instructions {
   color: #d0bc91;
   text-shadow: 0 1px 2px #000;
+  text-align: right;
 }
 
 .instructions strong:first-child { color: #6dd98c; }
