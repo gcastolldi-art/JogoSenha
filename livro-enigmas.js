@@ -8,18 +8,18 @@ const TEAM_ACCESS_CODE = 'XYZ';
  * Os valores são convertidos para a grafia esperada pelo site de destino.
  */
 const TEAM_NAMES = {
-  vermelha: 'Vermelho',
+  vermelha: 'Vermelha',
   laranja: 'Laranja',
-  amarela: 'Amarelo',
+  amarela: 'Amarela',
   verde: 'Verde',
   azul: 'Azul',
   marinho: 'Marinho',
-  roxo: 'Roxo',
+  roxo: 'Roxa',
   rosa: 'Rosa',
   marrom: 'Marrom',
   turquesa: 'Turquesa',
-  preta: 'Preto',
-  branca: 'Branco'
+  preta: 'Preta',
+  branca: 'Branca'
 };
 
 const requestedTeam = new URLSearchParams(window.location.search)
