@@ -14,7 +14,7 @@ const TEAM_NAMES = {
   verde: 'Verde',
   azul: 'Azul',
   marinho: 'Marinho',
-  roxo: 'Roxa',
+  roxa: 'Roxa',
   rosa: 'Rosa',
   marrom: 'Marrom',
   turquesa: 'Turquesa',
