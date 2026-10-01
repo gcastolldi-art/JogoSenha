@@ -1,6 +1,6 @@
 /* CONFIGURAÇÃO: altere aqui a senha e o código de acesso ao destino. */
 const BOOK_PASSWORD = 'PRISÃO';
-const SUCCESS_URL_BASE = 'https://gcastolldi-art.github.io/livro-dos-enigmas/';
+const SUCCESS_URL_BASE = 'https://gcastolldi-art.github.io/livro-dos-enigmas/index.html';
 const TEAM_ACCESS_CODE = 'XYZ';
 
 /*
