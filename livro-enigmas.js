@@ -1,12 +1,26 @@
-/* CONFIGURAÇÃO: altere aqui a senha e o código de acesso ao destino. */
-const BOOK_PASSWORD = 'PRISÃO';
-const SUCCESS_URL_BASE = 'https://gcastolldi-art.github.io/livro-dos-enigmas/index.html';
-const TEAM_ACCESS_CODE = 'XYZ';
 
+const SUCCESS_URL_BASE = 'https://gcastolldi-art.github.io/livro-dos-enigmas/index.html';
 /*
  * Uma única rotina reconhece a equipe recebida em ?equipe=.
  * Os valores são convertidos para a grafia esperada pelo site de destino.
- */
+*/
+/* CONFIGURAÇÃO: altere aqui a senha e o código de acesso ao destino. */
+const BOOK_PASSWORD = 'PRISMA';
+const TEAM_ACCESS_CODE = {
+  vermelha: 'ABC',
+  laranja: 'ERK',
+  amarela: 'TPS',
+  verde: 'EBM',
+  azul: 'SAD',
+  marinho: 'WQX',
+  roxa: 'PJL',
+  rosa: 'VFT',
+  marrom: 'ERD',
+  turquesa: 'PTR',
+  preta: 'CDE',
+  branca: 'FHY'
+};
+
 const TEAM_NAMES = {
   vermelha: 'Vermelha',
   laranja: 'Laranja',
@@ -34,7 +48,7 @@ function getSuccessUrl() {
 
   const fragment = new URLSearchParams({
     equipe: activeTeam,
-    codigo: TEAM_ACCESS_CODE
+    codigo: TEAM_ACCESS_CODE[requestedTeam] || null
   });
 
   return `${SUCCESS_URL_BASE}#${fragment.toString()}`;

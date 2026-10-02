@@ -4,22 +4,23 @@
  * A senha usará, na ordem, essa quantidade de cores de SECRET_COLORS.
  */
 const CODE_LENGTH = 6;
-const SECRET_COLORS = ['branco', 'preto', 'rosa', 'marrom', 'verde', 'amarelo'];
+
+const SECRET_COLORS = ['branco', 'roxo', 'laranja', 'marrom', 'verde', 'azul'];
 
 /* Defina aqui o número exibido sobre cada cor ao revelar a resposta. */
 const COLOR_NUMBERS = {
-  verde: 7,
+  verde: 3,
   marinho: 0,
-  amarelo: 4,
-  preto: 6,
+  amarelo: 0,
+  preto: 0,
   branco: 1,
   marrom: 3,
   vermelho: 0,
-  azul: 0,
-  rosa: 5,
-  roxo: 0,
+  azul: 5,
+  rosa: 0,
+  roxo: 3,
   turquesa: 0,
-  laranja: 0
+  laranja: 2
 };
 
 const COLORS = [
